@@ -32,10 +32,15 @@ echo "$CMD" | grep -qE 'chmod[[:space:]]+([0-7]*7[0-7]*7|777|a\+rwx)' && block "
 echo "$CMD" | grep -qE '(^|[;&|[:space:]])(crontab|systemctl|launchctl)([[:space:]]|$)' && block "scheduler/service modification (operator installs units manually)"
 
 # --- Publishing / exfiltration ----------------------------------------------
-echo "$CMD" | grep -qE 'git[[:space:]]+push' && {
-  echo "$CMD" | grep -qE 'git[[:space:]]+push[[:space:]]+(-[^[:space:]]+[[:space:]]+)*demo([[:space:]]|$)' \
-    || block "git push to non-demo remote"
-}
+# git push is blocked only inside pipeline runs (foundry-run.sh sets
+# FOUNDRY_PIPELINE=1 and adds a deny-rule overlay): the pipeline never pushes
+# anywhere but the demo remote; the operator/dev sessions push the repo freely.
+if [ "${FOUNDRY_PIPELINE:-0}" = "1" ]; then
+  echo "$CMD" | grep -qE 'git[[:space:]]+push' && {
+    echo "$CMD" | grep -qE 'git[[:space:]]+push[[:space:]]+(-[^[:space:]]+[[:space:]]+)*demo([[:space:]]|$)' \
+      || block "git push to non-demo remote (pipeline run)"
+  }
+fi
 echo "$CMD" | grep -qE '(npm|pnpm|yarn)[[:space:]]+publish' && block "package publish"
 echo "$CMD" | grep -qE 'docker[[:space:]]+push' && block "docker push"
 echo "$CMD" | grep -qE '(^|[;&|[:space:]])(ssh|scp|sftp|rsync[[:space:]][^;&|]*@)' && block "remote shell/copy"
