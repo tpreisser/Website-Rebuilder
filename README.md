@@ -50,9 +50,9 @@ Unattended auth: `claude setup-token` → set `CLAUDE_CODE_OAUTH_TOKEN`.
 
 | Path | What |
 |---|---|
-| `CLAUDE.md` | Orchestrator brain (Phase 1) |
-| `.claude/agents/` | 13 specialist subagents (Phase 1) |
-| `.claude/skills/` | Taste & standards library (Phase 1) |
+| `CLAUDE.md` | Orchestrator brain — the per-job main agent's standing instructions |
+| `.claude/agents/` | 13 specialist subagents (archivist, analyst, director, engineers, 3 critics, 2 auditors, marshal, prospector) |
+| `.claude/skills/` | Taste & standards library (7 skills incl. the Perfection Gate law and the direction die) |
 | `.claude/settings.json` | Deny rules + allowlist + hook wiring |
 | `hooks/` | guard (blocks destructive/exfil commands, works even in bypass mode), netlog (URL provenance), format, checkpoint |
 | `bin/` | supervisor, enqueue, status, systemd/launchd/cron units |

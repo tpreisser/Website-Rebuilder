@@ -74,6 +74,7 @@ while true; do
   # --- one headless pass --------------------------------------------------------
   MAX_USD=$(jq -r '.budget.max_budget_usd_per_run // 8' foundry.config.json)
   echo "$(date -u +%FT%TZ) [$WORKER] run $((RUNS_USED + 1))/$MAX_RUNS for '$SLUG' (mode: $PERM_MODE)"
+  FOUNDRY_PIPELINE=1 \
   claude -p "Execute the Foundry pipeline for job '$SLUG'. Read CLAUDE.md and jobs/$SLUG/state.json first; resume from the recorded stage. Work until the job reaches RELEASE, hits its budget, or you have made all the progress one run can make. Update state.json before exiting." \
     --output-format json \
     --permission-mode "$PERM_MODE" \
