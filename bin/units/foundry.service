@@ -1,0 +1,30 @@
+# systemd unit for the Foundry supervisor (Linux home server).
+# Install:
+#   sudo cp bin/units/foundry.service /etc/systemd/system/
+#   sudo systemctl daemon-reload && sudo systemctl enable --now foundry
+# Auth: put CLAUDE_CODE_OAUTH_TOKEN (from `claude setup-token`) in /etc/foundry.env (mode 0600).
+
+[Unit]
+Description=Foundry autonomous website-rebuild supervisor
+After=network-online.target docker.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=foundry
+WorkingDirectory=/opt/foundry
+EnvironmentFile=/etc/foundry.env
+# Strategy 1: each supervisor cycle runs inside the sandbox container.
+ExecStart=/usr/bin/docker run --rm \
+  --name foundry-worker \
+  -e CLAUDE_CODE_OAUTH_TOKEN \
+  -e FOUNDRY_PERMISSION_MODE=bypassPermissions \
+  -v /opt/foundry:/foundry \
+  foundry bin/foundry-run.sh
+# Strategy 2 fallback (no Docker): comment the ExecStart above, use:
+# ExecStart=/opt/foundry/bin/foundry-run.sh
+Restart=always
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target

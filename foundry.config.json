@@ -1,0 +1,34 @@
+{
+  "operator": "Tyler Preisser, Preisser Solutions, Hays KS",
+  "budget": {
+    "max_runs_per_job": 6,
+    "max_verify_loops": 4,
+    "max_budget_usd_per_run": 8,
+    "max_spend_usd_24h": 50
+  },
+  "capture": {
+    "max_pages": 40,
+    "rate_limit_ms": 1000,
+    "user_agent": "FoundryCapture/1.0 (+https://preissersolutions.com; site rebuild research; contact tyler@rsquaredai.com)"
+  },
+  "demo": {
+    "domain_suffix": "demo.preissersolutions.com",
+    "deploy_target": "cloudflare-pages",
+    "noindex": true
+  },
+  "network": {
+    "allowed_post_hosts": [
+      "api.cloudflare.com",
+      "ntfy.sh"
+    ]
+  },
+  "notify": {
+    "ntfy_topic": ""
+  },
+  "sweep": {
+    "seed_location": "Hays, KS",
+    "radius_minutes": 90,
+    "min_leads_per_sweep": 5,
+    "excluded_verticals": ["healthcare", "legal", "finance", "cannabis", "firearms"]
+  }
+}

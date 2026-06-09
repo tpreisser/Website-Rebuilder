@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- launchd agent for the Foundry supervisor (Mac).
+     Install:
+       cp bin/units/com.preissersolutions.foundry.plist ~/Library/LaunchAgents/
+       launchctl load -w ~/Library/LaunchAgents/com.preissersolutions.foundry.plist
+     Edit WorkingDirectory + EnvironmentVariables paths first. -->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>com.preissersolutions.foundry</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>bin/foundry-run.sh</string>
+  </array>
+  <key>WorkingDirectory</key><string>/Users/tyler/foundry</string>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>FOUNDRY_PERMISSION_MODE</key><string>dontAsk</string>
+    <key>PATH</key><string>/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin</string>
+  </dict>
+  <key>RunAtLoad</key><true/>
+  <key>KeepAlive</key><true/>
+  <key>StandardOutPath</key><string>/tmp/foundry.out.log</string>
+  <key>StandardErrorPath</key><string>/tmp/foundry.err.log</string>
+</dict>
+</plist>

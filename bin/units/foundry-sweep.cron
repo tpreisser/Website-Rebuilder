@@ -1,0 +1,4 @@
+# Foundry weekly prospecting sweep — install with: crontab -e (operator action; the
+# pipeline itself is forbidden from touching crontab by guard.sh).
+# Monday 6:00 AM local: drop a sweep job; the running supervisor picks it up.
+0 6 * * 1 cd /opt/foundry && bin/foundry-enqueue.sh --sweep >> runs/cron.log 2>&1

@@ -1,0 +1,119 @@
+{
+  "permissions": {
+    "deny": [
+      "Bash(git push*)",
+      "Bash(npm publish*)",
+      "Bash(pnpm publish*)",
+      "Bash(yarn publish*)",
+      "Bash(docker push*)",
+      "Bash(gh *)",
+      "Bash(ssh *)",
+      "Bash(scp *)",
+      "Bash(sudo *)",
+      "Bash(shutdown*)",
+      "Bash(reboot*)",
+      "Bash(mkfs*)",
+      "Bash(dd *)",
+      "Bash(crontab *)",
+      "Bash(systemctl *)",
+      "Bash(launchctl *)",
+      "Read(~/.ssh/**)",
+      "Read(//etc/shadow)",
+      "Read(~/.aws/**)",
+      "Read(~/.config/gh/**)",
+      "Read(~/.claude/.credentials.json)",
+      "Read(.env)",
+      "Read(.env.*)",
+      "Edit(~/.ssh/**)",
+      "Edit(~/.claude/**)",
+      "Edit(//etc/**)",
+      "Edit(//usr/**)",
+      "Edit(//opt/**)",
+      "WebFetch(domain:facebook.com)",
+      "WebFetch(domain:mail.google.com)"
+    ],
+    "allow": [
+      "Bash(npm run *)",
+      "Bash(npm install)",
+      "Bash(npm install *)",
+      "Bash(npm ci)",
+      "Bash(npm test*)",
+      "Bash(npx tsx *)",
+      "Bash(npx playwright *)",
+      "Bash(npx astro *)",
+      "Bash(npx prettier *)",
+      "Bash(npx lighthouse *)",
+      "Bash(npx tsc *)",
+      "Bash(node *)",
+      "Bash(jq *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git status*)",
+      "Bash(git diff*)",
+      "Bash(git log*)",
+      "Bash(git restore *)",
+      "Bash(git checkout -- *)",
+      "Bash(mkdir *)",
+      "Bash(mv *)",
+      "Bash(cp *)",
+      "Bash(curl -s *)",
+      "Bash(curl -sL *)",
+      "Bash(curl -I *)",
+      "Read",
+      "Write",
+      "Edit",
+      "Glob",
+      "Grep",
+      "WebFetch",
+      "WebSearch",
+      "mcp__playwright"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash hooks/guard.sh",
+            "timeout": 15
+          }
+        ]
+      },
+      {
+        "matcher": "WebFetch|mcp__playwright__browser_navigate",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash hooks/netlog.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash hooks/format.sh",
+            "timeout": 60
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash hooks/checkpoint.sh",
+            "timeout": 120
+          }
+        ]
+      }
+    ]
+  }
+}

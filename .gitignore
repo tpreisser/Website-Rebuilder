@@ -1,0 +1,13 @@
+node_modules/
+jobs/*/03-build/node_modules/
+jobs/*/03-build/dist/
+jobs/*/03-build/.astro/
+runs/*.json
+runs/network-log.csv
+runs/guard-log.txt
+runs/last-event.txt
+.DS_Store
+*.log
+.env
+.env.*
+runs/smoke-*/

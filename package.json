@@ -1,0 +1,28 @@
+{
+  "name": "foundry",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Autonomous pipeline that rebuilds dated local-business websites into verified, fully original sites.",
+  "type": "module",
+  "scripts": {
+    "capture": "tsx tools/capture.ts",
+    "audit": "tsx tools/audit.ts",
+    "screenshot-matrix": "tsx tools/screenshot-matrix.ts",
+    "similarity-check": "tsx tools/similarity-check.ts",
+    "smoke": "bash tools/smoke-test.sh"
+  },
+  "overrides": {
+    "playwright-core": "~1.56.0"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.10.2",
+    "chrome-launcher": "^1.2.0",
+    "lighthouse": "^12.8.2",
+    "playwright": "~1.56.0",
+    "prettier": "^3.6.2",
+    "robots-parser": "^3.0.1",
+    "sharp": "^0.34.5",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
+  }
+}
